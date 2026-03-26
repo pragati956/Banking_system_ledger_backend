@@ -67,5 +67,43 @@ The Backend Ledger Team
 
   await sendEmail(userEmail, subject, text, html);
 }
+async function sendTransactionEmail(userEmail, name, amount, toAccount) {
+  const subject = 'Transaction Successful';
+  const text = `Hello ${name},
 
-module.exports = { sendEmail, sendRegistrationEmail };
+Your transaction of $${amount} to account ${toAccount} has been successfully processed.
+
+`;
+  const html = `<p>Hello <strong>${name}</strong>,</p>
+
+<p>Your transaction of <strong>$${amount}</strong> to account <strong>${toAccount}</strong> has been successfully processed.</p>
+
+`;
+  await sendEmail(userEmail, subject, text, html);
+}
+async function sendTransactionFailureEmail(userEmail, name, amount, toAccount, reason) {
+  const subject = 'Transaction Failed';
+  const text = `Hello ${name},
+
+Your transaction of $${amount} to account ${toAccount} has failed.
+
+Reason: ${reason}
+
+Best regards,
+The Backend Ledger Team
+`;
+
+  const html = `
+<p>Hello <strong>${name}</strong>,</p>
+
+<p>Your transaction of <strong>$${amount}</strong> to account <strong>${toAccount}</strong> has failed.</p>
+
+<p><strong>Reason:</strong> ${reason}</p>
+
+<p>Best regards,<br>The Backend Ledger Team</p>
+`;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+
+module.exports = { sendEmail, sendRegistrationEmail, sendTransactionEmail, sendTransactionFailureEmail };
